@@ -6,7 +6,9 @@ namespace RPSLS
     {
         static void Main(string[] args)
         {
-           
+            GameSimulation RPSLS = new GameSimulation();
+
+            RPSLS.BeginGame();
         }
     }
 }
