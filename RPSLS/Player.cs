@@ -8,15 +8,19 @@ namespace RPSLS
     {
         // Member variables
         public string name;
+        public int score;
+        public string gesture;
 
         // constructor
         public Player(string name)
         {
             this.name = name;
+            score = 0;
+            gesture = "";
         }
 
         // Member methods
-        public abstract string MakeChoice(RuleTable ruleTable);
+        public abstract void ChooseGesture(RuleTable ruleTable);
 
     }
 }

@@ -15,17 +15,23 @@ namespace RPSLS
         }
 
         // Member method
-        public override string MakeChoice(RuleTable ruleTable)
+        public override void ChooseGesture(RuleTable ruleTable)
         {
+            int numGesture;
+
             Console.Clear();
-            Console.WriteLine(name + " select a gesture: \n");
-            ruleTable.DisplayGestures();
+            do
+            {
+                Console.WriteLine("\n" + name + " select a gesture: ");
+                ruleTable.DisplayGestures();
 
-            int gesture = int.Parse(Console.ReadLine());
+                numGesture = int.Parse(Console.ReadLine());
+            }
+            while (numGesture < 0 || numGesture > ruleTable.rules.Count - 1);
 
-            Console.WriteLine(name + " selected " + ruleTable.ruleTable[gesture][0].winGesture);
+            gesture = ruleTable.rules[numGesture][0].winGesture;
 
-            return ruleTable.ruleTable[gesture][0].winGesture;
+            Console.WriteLine(name + " selected " + gesture);
         }
 
     }

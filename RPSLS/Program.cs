@@ -8,7 +8,17 @@ namespace RPSLS
         {
             GameSimulation RPSLS = new GameSimulation();
 
-            RPSLS.BeginGame();
+            do
+            {
+                Console.Clear();
+
+                RPSLS.RunGame();
+
+                Console.WriteLine("\nWould you like to play again? (Y/N)");
+                if (Console.ReadLine() != "Y")
+                    break;
+            }
+            while (true);
         }
     }
 }
