@@ -8,7 +8,6 @@ namespace RPSLS
     {
         // Member variables
         public RuleTable Rules;
-        public List<string> Choices;
 
         public Player player1;
         public Player player2;
@@ -17,15 +16,6 @@ namespace RPSLS
         public GameSimulation()
         {
             Rules = new RuleTable();
-            InitializeChoices();
-
-        }
-        public void InitializeChoices()
-        {
-            Choices = new List<string>();
-
-            for (int i = 0; i < Rules.Rules.Count; i++)
-                Choices.Add(Rules.Rules[i].gesture);
         }
         public void BeginGame()
         {
@@ -38,20 +28,23 @@ namespace RPSLS
 
             Console.WriteLine("Let's play \"Rock, Paper, Scissors, Lizard, Spock \"");
             Rules.DisplayRules();
-            ChoosePlayers();
+            ChooseAndInitializePlayers();
             rounds = ChooseRounds();
+
+            Console.WriteLine("\nPress <Enter> to begin!");
+            Console.ReadLine();
 
             while (player1Wins < rounds/2+1 && player2Wins < rounds/2+1)
             {
-                player1Gesture = player1.MakeChoice(Choices);
-                player2Gesture = player2.MakeChoice(Choices);
+                player1Gesture = player1.MakeChoice(Rules);
+                player2Gesture = player2.MakeChoice(Rules);
                 if (Rules.Winner(player1Gesture, player2Gesture) == 1)
                     player1Wins++;
                 else
                     player2Wins++;
             }
         }
-        public void ChoosePlayers()
+        public void ChooseAndInitializePlayers()
         {
             Console.WriteLine("\nHow do you want to play?");
             Console.WriteLine("1) Human vs AI");
@@ -82,15 +75,5 @@ namespace RPSLS
             
             return rounds;
         }
-        public void DisplayRules()
-        {
-            Rules.DisplayRules();
-        }
-        public void DisplayGestures()
-        {
-            Rules.DisplayGestures();
-        }
-    
-    
     }
 }

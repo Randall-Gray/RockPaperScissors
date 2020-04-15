@@ -16,7 +16,7 @@ namespace RPSLS
         }
 
         // Member methods
-        public abstract string MakeChoice(List<string> choices);
+        public abstract string MakeChoice(RuleTable ruleTable);
 
     }
 }

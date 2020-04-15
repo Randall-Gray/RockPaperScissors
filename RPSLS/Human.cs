@@ -15,9 +15,17 @@ namespace RPSLS
         }
 
         // Member method
-        public override string MakeChoice(List<string> choices)
+        public override string MakeChoice(RuleTable ruleTable)
         {
-            return "Rock";
+            Console.Clear();
+            Console.WriteLine(name + " select a gesture: \n");
+            ruleTable.DisplayGestures();
+
+            int gesture = int.Parse(Console.ReadLine());
+
+            Console.WriteLine(name + " selected " + ruleTable.ruleTable[gesture][0].winGesture);
+
+            return ruleTable.ruleTable[gesture][0].winGesture;
         }
 
     }

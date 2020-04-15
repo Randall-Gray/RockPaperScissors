@@ -7,12 +7,12 @@ namespace RPSLS
     public class RuleTable
     {
         // Member variables
-        public List<RuleSet> Rules;             // Each RuleSet contains the rules for a single gesture.
+        public List<List<Rule>> ruleTable;      // Each ruleTable[] list contains the rules for a single gesture.
 
         // constructor
         public RuleTable()
         {
-            Rules = new List<RuleSet>();
+            ruleTable = new List<List<Rule>>();
 
             AddRule("Rock crushes Scissors");
             AddRule("Scissors cuts Paper");
@@ -25,29 +25,29 @@ namespace RPSLS
             AddRule("Paper disproves Spock");
             AddRule("Spock vaporizes Rock");
         }
-        public void AddRule(string strRule)
+        private void AddRule(string strRule)
         {
             Rule rule = new Rule(strRule);
             int index;
 
-            if (FindRuleSet(rule.winGesture, out index))
+            if (FindGesture(rule.winGesture, out index))
             {
-                Rules[index].AddRule(rule);
+                ruleTable[index].Add(rule);
             }
             else
             {
-                RuleSet ruleSet = new RuleSet(rule.winGesture);
-                ruleSet.AddRule(rule);
-                Rules.Add(ruleSet);
+                List<Rule> gestureSet = new List<Rule>();
+                gestureSet.Add(rule);
+                ruleTable.Add(gestureSet);
             }
         }
-        public bool FindRuleSet(string gesture, out int index)
+        public bool FindGesture(string gesture, out int index)
         {
             index = -1;
 
-            for (int i = 0; i < Rules.Count; i++)
+            for (int i = 0; i < ruleTable.Count; i++)
             {
-                if (Rules[i].gesture == gesture)
+                if (ruleTable[i][0].winGesture == gesture)
                 {
                     index = i;
                     return true;
@@ -62,16 +62,16 @@ namespace RPSLS
         public void DisplayRules()
         {
             Console.WriteLine("\nHere are the rules: ");
-            for (int i = 0; i < Rules.Count; i++)
+            for (int i = 0; i < ruleTable.Count; i++)
             {
-                for (int j = 0; j < Rules[i].rules.Count; j++)
-                    Console.WriteLine(Rules[i].rules[j].winGesture + " " + Rules[i].rules[j].action + " " + Rules[i].rules[j].loseGesture);
+                for (int j = 0; j < ruleTable[i].Count; j++)
+                    ruleTable[i][j].DisplayRule();
             }
         }
         public void DisplayGestures()
         {
-            for (int i = 0; i < Rules.Count; i++)
-                Console.WriteLine(i + ") " + Rules[i].gesture);
+            for (int i = 0; i < ruleTable.Count; i++)
+                Console.WriteLine(i + ") " + ruleTable[i][0].winGesture);
         }
 
 
