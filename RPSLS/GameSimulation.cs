@@ -39,10 +39,11 @@ namespace RPSLS
 
             while (player1.score < winsForVictory && player2.score < winsForVictory)
             {
+                numRounds++;
+
                 player1.ChooseGesture(ruleTable);
                 player2.ChooseGesture(ruleTable);
-                roundResult = ruleTable.SetWinner(player1, player2);
-                DisplayAndSetRoundResult(roundResult);
+                DisplayAndSetRoundResult();
             }
             DisplayGameOutcome();
         }
@@ -98,36 +99,30 @@ namespace RPSLS
             Console.WriteLine("\nThe game will consist of the best of " + rounds + " rounds (" + winsForVictory + " WINS).");
             Console.WriteLine("Ties do not count.");
         }
-        public void DisplayAndSetRoundResult(int result)
+        public void DisplayAndSetRoundResult()
         {
-            Console.WriteLine("\nPlayer1 chose: " + player1.gesture + "\tPlayer2 chose: " + player2.gesture);
+            Console.Clear();
+            Console.WriteLine("Round: " + numRounds);
+            Console.WriteLine(player1.name + " chose: " + player1.gesture + "\t" + player2.name + " chose: " + player2.gesture + "\n");
 
-            switch (result)
-            {
-                case 0:
-                    numTies++;
-                    Console.WriteLine("This round ended in a tie.");
-                    break;
-                case 1:
-                    Console.WriteLine("Player 1 " + player1.name + " won this round");
-                    break;
-                case 2:
-                    Console.WriteLine("Player 2 " + player2.name + " won this round");
-                    break;
-                default:
-                    break;
-            }
+            if (!ruleTable.SetAndDisplayWinner(player1, player2))
+                numTies++;
+
+            Console.WriteLine("\nScore: " + player1.name + " - " + player1.score + "\t" + player2.name + " - " + player2.score);
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
         }
         public void DisplayGameOutcome()
         {
-            Console.WriteLine("Rounds: " + numRounds);
-            Console.WriteLine("Player1 wins: " + player1.score + "\tPlayer2 wins: " + player2.score);
-            Console.WriteLine("Number of ties: " + numTies);
-
+            Console.Clear();
             if (player1.score > player2.score)
-                Console.WriteLine("\n PLAYER 1 " + player1.name.ToUpper() + " WINS!");
+                Console.WriteLine("\n" + player1.name.ToUpper() + " WINS!\n");
             else
-                Console.WriteLine("\n PLAYER 2 " + player2.name.ToUpper() + " WINS!");
+                Console.WriteLine("\n" + player2.name.ToUpper() + " WINS!\n");
+
+            Console.WriteLine("Rounds: " + numRounds);
+            Console.WriteLine("Player1 rounds won: " + player1.score + "\tPlayer2 rounds won: " + player2.score);
+            Console.WriteLine("Number of ties: " + numTies);
         }
     }
 }

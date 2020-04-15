@@ -15,7 +15,7 @@ namespace RPSLS
                 RPSLS.RunGame();
 
                 Console.WriteLine("\nWould you like to play again? (Y/N)");
-                if (Console.ReadLine() != "Y")
+                if (Console.ReadLine().ToUpper() != "Y")
                     break;
             }
             while (true);

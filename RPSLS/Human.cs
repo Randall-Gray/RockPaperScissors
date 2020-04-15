@@ -32,6 +32,8 @@ namespace RPSLS
             gesture = ruleTable.rules[numGesture][0].winGesture;
 
             Console.WriteLine(name + " selected " + gesture);
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
         }
 
     }

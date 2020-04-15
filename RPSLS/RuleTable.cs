@@ -55,10 +55,13 @@ namespace RPSLS
             }
             return false;
         }
-        public int SetWinner(Player player1, Player player2)
+        public bool SetAndDisplayWinner(Player player1, Player player2)
         {
             if (player1.gesture == player2.gesture)
-                return 0;               // Tie
+            {
+                Console.WriteLine("This round ended in a tie.");
+                return false;    // Tie - no winner
+            }
 
             int index;
 
@@ -70,7 +73,9 @@ namespace RPSLS
                     if (rules[index][i].loseGesture == player2.gesture)
                     {
                         player1.score++;
-                        return 1;
+                        rules[index][i].DisplayRule();
+                        Console.WriteLine("\n" + player1.name + " won this round");
+                        return true;
                     }
                 }
             }
@@ -82,12 +87,14 @@ namespace RPSLS
                     if (rules[index][i].loseGesture == player1.gesture)
                     {
                         player2.score++;
-                        return 2;
+                        rules[index][i].DisplayRule();
+                        Console.WriteLine("\n" + player2.name + " won this round");
+                        return true;
                     }
                 }
             }
 
-            return 0;   // Illegal input - call it a tie
+            return false;   // Illegal input - call it a tie
         }
         public void DisplayRules()
         {

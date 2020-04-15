@@ -20,11 +20,13 @@ namespace RPSLS
         {
             int numGesture = randomGenerator.Next(0, ruleTable.rules.Count);
 
-            Console.Clear();
+            //Console.Clear();
 
             gesture = ruleTable.rules[numGesture][0].winGesture;
 
-            Console.WriteLine(name + " selected " + gesture);
+            //Console.WriteLine(name + " selected " + gesture);
+            //Console.WriteLine("\nPress any key to continue...");
+            //Console.ReadLine();
         }
     }
 }
