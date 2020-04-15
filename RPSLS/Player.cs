@@ -21,6 +21,5 @@ namespace RPSLS
 
         // Member methods
         public abstract void ChooseGesture(RuleTable ruleTable);
-
     }
 }

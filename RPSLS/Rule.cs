@@ -27,6 +27,7 @@ namespace RPSLS
             loseGesture = words[2];
         }
 
+        // Member methods
         public void DisplayRule()
         {
             Console.WriteLine(winGesture + " " + action + " " + loseGesture);

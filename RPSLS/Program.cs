@@ -6,7 +6,7 @@ namespace RPSLS
     {
         static void Main(string[] args)
         {
-            GameSimulation RPSLS = new GameSimulation();
+            GameSimulation RPSLS = new GameSimulation();        // Rock, Paper, Scissors, Lizard, Spock
 
             do
             {

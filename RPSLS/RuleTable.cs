@@ -7,7 +7,7 @@ namespace RPSLS
     public class RuleTable
     {
         // Member variables
-        public List<List<Rule>> rules;      // Each rules[] list contains the rules for a single gesture.
+        public List<List<Rule>> rules;      // Each rules[] list contains the winning rules for a single gesture.
 
         // constructor
         public RuleTable()
@@ -25,25 +25,29 @@ namespace RPSLS
             AddRule("Paper disproves Spock");
             AddRule("Spock vaporizes Rock");
         }
+
+        // Member methods
         private void AddRule(string strRule)
         {
             Rule rule = new Rule(strRule);
             int index;
 
+            // rules[] list already exists for the gesture.
             if (FindGesture(rule.winGesture, out index))
             {
                 rules[index].Add(rule);
             }
-            else
+            else    // create new rules[] list
             {
-                List<Rule> gestureSet = new List<Rule>();
-                gestureSet.Add(rule);
-                rules.Add(gestureSet);
+                List<Rule> gestureList = new List<Rule>();
+                gestureList.Add(rule);
+                rules.Add(gestureList);
             }
         }
+        // Find the index into rules[] pertaining to the gesture (if it exists).
         public bool FindGesture(string gesture, out int index)
         {
-            index = -1;
+            index = -1;     // illegal index if false is returned.
 
             for (int i = 0; i < rules.Count; i++)
             {
@@ -55,6 +59,7 @@ namespace RPSLS
             }
             return false;
         }
+        // Returns false if it is a tie and there is no winner.
         public bool SetAndDisplayWinner(Player player1, Player player2)
         {
             if (player1.gesture == player2.gesture)
@@ -63,9 +68,24 @@ namespace RPSLS
                 return false;    // Tie - no winner
             }
 
+            // See if player1 gesture won
+            if (!DidFirstParameterWin(player1, player2))
+            {
+                // See if player2 gesture won
+                if (!DidFirstParameterWin(player2, player1))
+                {
+                    return false;   // Illegal input - call it a tie
+                }
+            }
+
+            return true;
+        }
+        // Checks if first player parameter beat the second player parameter.
+        private bool DidFirstParameterWin(Player player1, Player player2)
+        {
             int index;
 
-            // See if player1 gesture won
+            // See if player1 gesture beat player2 gesture
             if (FindGesture(player1.gesture, out index))
             {
                 for (int i = 0; i < rules[index].Count; i++)
@@ -79,23 +99,9 @@ namespace RPSLS
                     }
                 }
             }
-            // See if player 2 gesture won
-            if (FindGesture(player2.gesture, out index))
-            {
-                for (int i = 0; i < rules[index].Count; i++)
-                {
-                    if (rules[index][i].loseGesture == player1.gesture)
-                    {
-                        player2.score++;
-                        rules[index][i].DisplayRule();
-                        Console.WriteLine("\n" + player2.name + " won this round");
-                        return true;
-                    }
-                }
-            }
-
-            return false;   // Illegal input - call it a tie
+            return false;
         }
+        // Displays all of the rules in the form "<gesture> <action> <gesture>"
         public void DisplayRules()
         {
             Console.WriteLine("\nHere are the rules: ");
@@ -105,6 +111,7 @@ namespace RPSLS
                     rules[i][j].DisplayRule();
             }
         }
+        // Displays list of gestures for number input e.g. "1) Rock"....
         public void DisplayGestures()
         {
             for (int i = 0; i < rules.Count; i++)

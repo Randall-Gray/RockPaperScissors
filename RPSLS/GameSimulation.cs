@@ -7,24 +7,24 @@ namespace RPSLS
     public class GameSimulation
     {
         // Member variables
-        public RuleTable ruleTable;
+        RuleTable ruleTable;
 
-        public Player player1;
-        public Player player2;
+        Player player1;
+        Player player2;
 
-        int winsForVictory;
-        int numRounds;
-        int numTies;
+        int winsForVictory;     // based on number of rounds entered by players
+        int numRounds;          // total rounds played in game including ties
+        int numTies;            // number of tied rounds.
 
         // constructor
         public GameSimulation()
         {
             ruleTable = new RuleTable();
         }
+
+        // Member methods
         public void RunGame()
         {
-            int roundResult;
-
             Console.Clear();
             Console.WriteLine("Let's play \"Rock, Paper, Scissors, Lizard, Spock \"");
             ruleTable.DisplayRules();
@@ -47,7 +47,7 @@ namespace RPSLS
             }
             DisplayGameOutcome();
         }
-        public void ChooseAndInitializePlayers()
+        private void ChooseAndInitializePlayers()
         {
             string choice;
 
@@ -84,13 +84,14 @@ namespace RPSLS
             Console.WriteLine("\nPlayer1 is: " + player1.name);
             Console.WriteLine("Player2 is: " + player2.name);
         }
-        public void SetWinCondition()
+        // Ask players how many rounds to play "best of"
+        private void SetWinCondition()
         {
             int rounds;
 
             do
             {
-                Console.WriteLine("\nEnter odd number of rounds to play: ");    // Don't want to deal with ties.
+                Console.WriteLine("\nEnter odd number of rounds to play: ");    // Don't want to deal with tied games.
                 rounds = int.Parse(Console.ReadLine());
             }
             while (rounds % 2 == 0);
@@ -99,7 +100,7 @@ namespace RPSLS
             Console.WriteLine("\nThe game will consist of the best of " + rounds + " rounds (" + winsForVictory + " WINS).");
             Console.WriteLine("Ties do not count.");
         }
-        public void DisplayAndSetRoundResult()
+        private void DisplayAndSetRoundResult()
         {
             Console.Clear();
             Console.WriteLine("Round: " + numRounds);
@@ -108,11 +109,13 @@ namespace RPSLS
             if (!ruleTable.SetAndDisplayWinner(player1, player2))
                 numTies++;
 
+            // display running score so far
             Console.WriteLine("\nScore: " + player1.name + " - " + player1.score + "\t" + player2.name + " - " + player2.score);
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadLine();
         }
-        public void DisplayGameOutcome()
+        // Display end of game results.
+        private void DisplayGameOutcome()
         {
             Console.Clear();
             if (player1.score > player2.score)
@@ -121,7 +124,7 @@ namespace RPSLS
                 Console.WriteLine("\n" + player2.name.ToUpper() + " WINS!\n");
 
             Console.WriteLine("Rounds: " + numRounds);
-            Console.WriteLine("Player1 rounds won: " + player1.score + "\tPlayer2 rounds won: " + player2.score);
+            Console.WriteLine(player1.name + " rounds won: " + player1.score + "\t" + player2.name + " rounds won: " + player2.score);
             Console.WriteLine("Number of ties: " + numTies);
         }
     }
