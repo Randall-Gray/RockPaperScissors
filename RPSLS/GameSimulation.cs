@@ -87,14 +87,16 @@ namespace RPSLS
         // Ask players how many rounds to play "best of"
         private void SetWinCondition()
         {
+            bool validInput;
             int rounds;
 
             do
             {
                 Console.WriteLine("\nEnter odd number of rounds to play: ");    // Don't want to deal with tied games.
-                rounds = int.Parse(Console.ReadLine());
+                // protect against non-number input
+                validInput = int.TryParse(Console.ReadLine(), out rounds);
             }
-            while (rounds % 2 == 0);
+            while (!validInput || rounds % 2 == 0);
 
             winsForVictory = rounds / 2 + 1;
             Console.WriteLine("\nThe game will consist of the best of " + rounds + " rounds (" + winsForVictory + " WINS).");

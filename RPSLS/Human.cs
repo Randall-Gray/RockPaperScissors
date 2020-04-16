@@ -17,6 +17,7 @@ namespace RPSLS
         // Member method
         public override void ChooseGesture(RuleTable ruleTable)
         {
+            bool validInput;
             int numGesture;
 
             Console.Clear();            // Don't want to see previous human player choice (if there was one).
@@ -26,9 +27,11 @@ namespace RPSLS
                 ruleTable.DisplayGestures();
                 // Add selection to redisplay the game rules.
                 Console.WriteLine(ruleTable.rules.Count + ") (**Display game rules**)");
-
-                numGesture = int.Parse(Console.ReadLine());
-            
+                // protect against non-number input
+                validInput = int.TryParse(Console.ReadLine(), out numGesture);
+                if (!validInput)
+                    continue;
+                
                 // Display game rules.
                 if (numGesture == ruleTable.rules.Count)
                 {
@@ -36,7 +39,7 @@ namespace RPSLS
                     ruleTable.DisplayRules();
                 }
             }
-            while (numGesture < 0 || numGesture > ruleTable.rules.Count - 1);
+            while (!validInput || numGesture < 0 || numGesture > ruleTable.rules.Count - 1);
 
             gesture = ruleTable.rules[numGesture][0].winGesture;
 
